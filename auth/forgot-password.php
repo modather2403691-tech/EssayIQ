@@ -57,10 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $message = "Please enter a valid email address.";
     }
-    $_SESSION["reset_user_id"] = $reset["user_id"];
 
-header("Location: reset-password.php");
-exit;
 }
 ?>
 
