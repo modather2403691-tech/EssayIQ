@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="EssayIQ | Smarter Essay Grading. Powered by AI.">
   <meta property="og:description" content="EssayIQ reads an essay, flags what needs work, scores it against clear criteria and suggests fixes.">
-  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/index.css?v=<?php echo filemtime(__DIR__ . '/assets/css/index.css'); ?>">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
