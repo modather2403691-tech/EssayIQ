@@ -14,8 +14,7 @@ $circle   = $latest['score'];
 
 <div class="page-head reveal">
   <div>
-    <h1>Welcome back, Ahmed</h1>
-    <p>Here is where your writing stands today and what to work on next.</p>
+<h1>Welcome back, <?php echo e($_SESSION['name'] ?? 'Student'); ?></h1>    <p>Here is where your writing stands today and what to work on next.</p>
   </div>
   <div class="actions">
     <a href="submit-essay.php" class="btn btn-primary">Submit an essay</a>
