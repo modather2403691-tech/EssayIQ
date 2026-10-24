@@ -68,8 +68,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EssayIQ | Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="../assets/css/instructor1.css"></head>
+    <a href="submissions.php">Submissions</a>
 <body>
 
 <aside class="sidebar" id="sidebar">

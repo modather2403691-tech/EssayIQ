@@ -57,10 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $message = "Please enter a valid email address.";
     }
-
+  
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
