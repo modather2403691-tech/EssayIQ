@@ -1,0 +1,1233 @@
+:root {
+    --bg: #050816;
+    --bg-2: #0a1030;
+    --blue: #3b82f6;
+    --violet: #8b5cf6;
+    --cyan: #22d3ee;
+    --text: #e8ecff;
+    --muted: #9aa4cf;
+    --glass: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --radius: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.20), transparent 35%),
+        radial-gradient(circle at 10% 80%, rgba(34, 211, 238, 0.12), transparent 35%),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Navbar */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 5%;
+
+    background: rgba(5, 8, 22, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.logo span {
+    color: var(--cyan);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-links a {
+    color: var(--muted);
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: white;
+}
+
+.nav-links a.active {
+    text-decoration: underline;
+    text-decoration-color: var(--cyan);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+}
+
+/* Main content */
+
+.container {
+    width: min(1180px, 92%);
+    margin: 0 auto;
+    padding-top: 120px;
+    padding-bottom: 60px;
+}
+
+.page-header {
+    margin-bottom: 35px;
+}
+
+.page-header h1 {
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        var(--cyan),
+        var(--blue),
+        var(--violet)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.page-header p {
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+/* Course cards */
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.course-card {
+    padding: 28px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.30);
+
+    transition:
+        transform 0.3s,
+        border-color 0.3s,
+        box-shadow 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(34, 211, 238, 0.45);
+    box-shadow: 0 25px 60px rgba(59, 130, 246, 0.20);
+}
+
+.course-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(34, 211, 238, 0.22),
+        rgba(139, 92, 246, 0.30)
+    );
+
+    color: var(--cyan);
+    font-size: 1.4rem;
+}
+
+.course-card h2 {
+    margin-bottom: 10px;
+}
+
+.course-card p {
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.course-info {
+    margin: 18px 0;
+}
+
+.course-info span {
+    display: inline-block;
+    margin-right: 18px;
+    color: var(--text);
+}
+
+/* Buttons */
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-primary {
+    background: linear-gradient(
+        135deg,
+        var(--blue),
+        var(--violet)
+    );
+
+    color: white;
+
+    box-shadow:
+        0 8px 30px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 12px 40px rgba(139, 92, 246, 0.55);
+}
+
+.btn-ghost {
+    background: var(--glass);
+    border-color: var(--glass-border);
+    color: var(--text);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Create course */
+
+.create-course {
+    margin-top: 30px;
+}
+
+/* Mobile */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .container {
+        padding-top: 160px;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+}
+
+
+:root {
+    --bg: #050816;
+    --bg-2: #0a1030;
+
+    --blue: #3b82f6;
+    --violet: #8b5cf6;
+    --cyan: #22d3ee;
+
+    --text: #e8ecff;
+    --muted: #9aa4cf;
+
+    --glass: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.14);
+
+    --radius: 20px;
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(139, 92, 246, 0.20),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 10% 80%,
+            rgba(34, 211, 238, 0.12),
+            transparent 35%
+        ),
+
+        var(--bg);
+
+    color: var(--text);
+
+    min-height: 100vh;
+}
+
+
+/* =========================
+   HEADINGS
+========================= */
+
+h1,
+h2,
+h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+
+/* =========================
+   LINKS
+========================= */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 5%;
+
+    background: rgba(5, 8, 22, 0.85);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-bottom: 1px solid var(--glass-border);
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.logo-icon {
+    font-size: 28px;
+}
+
+.logo-name span {
+    color: var(--cyan);
+}
+
+/* =========================
+   NAVIGATION LINKS
+========================= */
+
+.nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 28px;
+}
+
+
+.nav-links a {
+    color: var(--muted);
+
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: white;
+}
+
+
+.nav-links a.active {
+    text-decoration: underline;
+
+    text-decoration-color: var(--cyan);
+
+    text-decoration-thickness: 2px;
+
+    text-underline-offset: 8px;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container {
+    width: min(1180px, 92%);
+
+    margin: 0 auto;
+
+    padding-top: 120px;
+
+    padding-bottom: 60px;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+    margin-bottom: 35px;
+}
+
+
+.page-header h1 {
+    font-size: 2.8rem;
+
+    margin-bottom: 8px;
+}
+
+
+.page-header p {
+    color: var(--muted);
+
+    font-size: 1rem;
+}
+
+
+.gradient-text {
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--blue),
+            var(--violet)
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+/* =========================
+   COURSE GRID
+========================= */
+
+.course-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 24px;
+}
+
+
+.course-card {
+    padding: 28px;
+
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius);
+
+    backdrop-filter: blur(14px);
+
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.30);
+
+    transition:
+        transform 0.3s,
+        border-color 0.3s,
+        box-shadow 0.3s;
+}
+
+
+.course-card:hover {
+    transform: translateY(-6px);
+
+    border-color:
+        rgba(34, 211, 238, 0.45);
+
+    box-shadow:
+        0 25px 60px
+        rgba(59, 130, 246, 0.20);
+}
+
+
+.course-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 211, 238, 0.22),
+            rgba(139, 92, 246, 0.30)
+        );
+
+    color: var(--cyan);
+
+    font-size: 1.4rem;
+}
+
+
+.course-card h2 {
+    margin-bottom: 10px;
+}
+
+
+.course-card p {
+    color: var(--muted);
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 999px;
+
+    font-weight: 600;
+
+    border: 1px solid transparent;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+
+.btn-primary {
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--violet)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 8px 30px
+        rgba(99, 102, 241, 0.35);
+}
+
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 40px
+        rgba(139, 92, 246, 0.55);
+}
+
+
+.btn-ghost {
+    background: var(--glass);
+
+    border-color: var(--glass-border);
+
+    color: var(--text);
+}
+
+
+.btn-ghost:hover {
+    background:
+        rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================
+   CREATE COURSE
+========================= */
+
+.create-course {
+    margin-top: 30px;
+}
+
+
+/* =========================
+   GRADING CRITERIA
+========================= */
+
+.criteria-card {
+    padding: 30px;
+
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius);
+
+    backdrop-filter: blur(14px);
+
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.30);
+}
+
+
+.criteria-header {
+    margin-bottom: 30px;
+}
+
+
+.criteria-header h2 {
+    margin-bottom: 8px;
+}
+
+
+.criteria-header p {
+    color: var(--muted);
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-weight: 600;
+}
+
+
+.form-group select {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--glass-border);
+
+    background: rgba(5, 8, 22, 0.75);
+
+    color: var(--text);
+
+    font-size: 1rem;
+
+    outline: none;
+}
+
+
+/* =========================
+   CRITERIA ROW
+========================= */
+
+.criteria-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+.criteria-row {
+    display: grid;
+
+    grid-template-columns: 1fr 90px 25px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: 15px;
+}
+
+
+.criteria-row h3 {
+    margin-bottom: 5px;
+}
+
+
+.criteria-row p {
+    color: var(--muted);
+
+    font-size: 0.9rem;
+}
+
+
+.criteria-row input {
+    width: 100%;
+
+    padding: 10px;
+
+    text-align: center;
+
+    border-radius: 10px;
+
+    border: 1px solid var(--glass-border);
+
+    background:
+        rgba(5, 8, 22, 0.8);
+
+    color: white;
+
+    font-size: 1rem;
+
+    outline: none;
+}
+
+
+.criteria-row span {
+    color: var(--cyan);
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.criteria-total {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 24px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid var(--glass-border);
+
+    font-size: 1.1rem;
+}
+
+
+.criteria-total strong {
+    color: var(--cyan);
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.criteria-actions {
+    margin-top: 40px;
+
+    display: flex;
+
+    justify-content: flex-end;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+
+    .nav-links {
+        gap: 15px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+
+    .container {
+        padding-top: 160px;
+    }
+
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+
+
+    .criteria-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .criteria-row input {
+        width: 90px;
+    }
+
+
+    .criteria-actions {
+        justify-content: stretch;
+    }
+
+
+    .criteria-actions .btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+}
+/* =========================
+   ANALYTICS
+========================= */
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.analytics-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    padding: 22px;
+
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
+
+    transition: 0.25s;
+}
+
+.analytics-card:hover {
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(34, 211, 238, 0.35);
+}
+
+.analytics-icon {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34, 211, 238, 0.15),
+            rgba(139, 92, 246, 0.20)
+        );
+
+    color: var(--cyan);
+
+    font-size: 1.1rem;
+}
+
+.analytics-label {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 0.8rem;
+
+    margin-bottom: 5px;
+}
+
+.analytics-card h2 {
+    font-size: 1.8rem;
+
+    margin-bottom: 5px;
+}
+
+.analytics-card p {
+    color: var(--muted);
+
+    font-size: 0.72rem;
+}
+
+.analytics-positive {
+    color: #4ade80 !important;
+}
+
+.issue-text {
+    font-size: 1.35rem !important;
+
+    color: var(--cyan);
+}
+
+
+/* Analytics Sections */
+
+.analytics-section {
+    padding: 28px;
+
+    margin-bottom: 24px;
+
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.analytics-section-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+.analytics-section-header h2 {
+    margin-bottom: 7px;
+
+    font-size: 1.35rem;
+}
+
+.analytics-section-header p {
+    color: var(--muted);
+
+    font-size: 0.85rem;
+}
+
+.analytics-badge {
+    padding: 7px 13px;
+
+    border-radius: 999px;
+
+    color: var(--cyan);
+
+    background:
+        rgba(34, 211, 238, 0.08);
+
+    border: 1px solid
+        rgba(34, 211, 238, 0.18);
+
+    font-size: 0.72rem;
+
+    font-weight: 600;
+}
+
+
+/* Performance */
+
+.performance-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+.performance-row {
+    width: 100%;
+}
+
+.performance-info {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 9px;
+
+    font-size: 0.9rem;
+}
+
+.performance-info strong {
+    color: var(--cyan);
+}
+
+.progress-bar {
+    width: 100%;
+
+    height: 9px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+}
+
+.progress-fill {
+    height: 100%;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--blue),
+            var(--violet)
+        );
+}
+
+
+/* Common Problems */
+
+.problems-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.problem-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border: 1px solid var(--glass-border);
+
+    transition: 0.25s;
+}
+
+.problem-card:hover {
+    border-color:
+        rgba(34, 211, 238, 0.30);
+
+    background:
+        rgba(255, 255, 255, 0.055);
+}
+
+.problem-number {
+    color: var(--cyan);
+
+    font-size: 0.75rem;
+
+    font-weight: 700;
+}
+
+.problem-card h3 {
+    font-size: 0.95rem;
+
+    margin-bottom: 6px;
+}
+
+.problem-card p {
+    color: var(--muted);
+
+    font-size: 0.78rem;
+
+    line-height: 1.5;
+}
+
+
+/* Analytics Responsive */
+
+@media (max-width: 1000px) {
+
+    .analytics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .problems-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-section-header {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+}
+
+/* EssayIQ Logo */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.brand-name span {
+    color: var(--cyan);
+}
+
+.brand-tagline {
+    font-size: 10px;
+    color: #8794c4;
+    margin-top: 4px;
+}
+
