@@ -1,62 +1,179 @@
-<?php
-$pageTitle = 'Academic Risk Monitor - EssayIQ';
 
-// Phase 1: sample data matching the existing submissions prototype.
-$submissions = [
-    ['id'=>101,'student'=>'Ahmed Ali','title'=>'Impact of AI on Education','course'=>'Computer Science','grade'=>88,'similarity'=>12,'status'=>'Graded'],
-    ['id'=>102,'student'=>'Sara Mohamed','title'=>'Climate Change Essay','course'=>'English Writing','grade'=>null,'similarity'=>null,'status'=>'Pending'],
-    ['id'=>103,'student'=>'Mona Adel','title'=>'Ethics in Technology','course'=>'Software Engineering','grade'=>62,'similarity'=>78,'status'=>'Flagged'],
-    ['id'=>104,'student'=>'Omar Khaled','title'=>'Future of Machine Learning','course'=>'Artificial Intelligence','grade'=>94,'similarity'=>8,'status'=>'Graded'],
-    ['id'=>105,'student'=>'Nour Hassan','title'=>'Cybersecurity Challenges','course'=>'Computer Networks','grade'=>null,'similarity'=>null,'status'=>'Pending'],
-    ['id'=>106,'student'=>'Youssef Adel','title'=>'Social Media and Society','course'=>'English Writing','grade'=>73,'similarity'=>46,'status'=>'Flagged'],
-];
 
-function assessAcademicRisk(array $submission): array {
-    if ($submission['status'] === 'Pending' || $submission['grade'] === null || $submission['similarity'] === null) {
-        return ['level'=>'Not Assessed','points'=>null,'reasons'=>['Awaiting grading and similarity results'],'recommendation'=>'Wait for assessment results before making a risk decision.'];
-    }
-    $points = 0;
-    $reasons = [];
-    if ($submission['grade'] < 65) {
-        $points += 2;
-        $reasons[] = 'Grade below 65%';
-    } elseif ($submission['grade'] < 75) {
-        $points += 1;
-        $reasons[] = 'Grade below 75%';
-    }
-    if ($submission['similarity'] >= 70) {
-        $points += 2;
-        $reasons[] = 'Similarity of 70% or higher — source review recommended';
-    } elseif ($submission['similarity'] >= 40) {
-        $points += 1;
-        $reasons[] = 'Similarity of 40% or higher — check citations and sources';
-    }
-    if ($submission['status'] === 'Flagged') {
-        $points += 1;
-        $reasons[] = 'Submission previously flagged for review';
-    }
-    $level = $points >= 4 ? 'High' : ($points >= 2 ? 'Medium' : 'Low');
-    if (!$reasons) $reasons[] = 'No configured risk triggers detected';
-    $recommendation = match ($level) {
-        'High' => 'Prioritize human review of the essay, rubric, and cited sources.',
-        'Medium' => 'Review the highlighted criteria and source attribution.',
-        default => 'No priority review indicated by these demo rules.'
-    };
-    return compact('level', 'points', 'reasons', 'recommendation');
-}
+<!DOCTYPE html>
+<html lang="en">
 
-$counts = ['High'=>0,'Medium'=>0,'Low'=>0,'Not Assessed'=>0];
-foreach ($submissions as &$submission) {
-    $submission['risk'] = assessAcademicRisk($submission);
-    $counts[$submission['risk']['level']]++;
-}
-unset($submission);
+<head>
+    <meta charset="UTF-8">
 
-require __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/admin-navbar.php';
-?>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Academic Risk Monitor - EssayIQ    </title>
+
+            <link
+            rel="stylesheet"
+            href="/EssayIQ/assets/css/admin.css?v=4"
+        >
+    </head>
+
+<body class="ieg-app">
+<header class="ieg-navbar ieg-admin-navbar">
+  <div class="ieg-navbar-container">
+    <a class="ieg-navbar-brand" href="/EssayIQ/admin/dashboard.php">
+      <svg class="ieg-admin-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="9" fill="url(#iegAdminLogoGradient)"/>
+        <path d="M10 11h12M10 16h8M10 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="23" cy="21" r="3" fill="#fff"/>
+        <defs><linearGradient id="iegAdminLogoGradient" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+      </svg>
+      <span class="ieg-brand-text"><strong>Essay<span>IQ</span></strong><small>Admin Control Center</small></span>
+    </a>
+    <div class="ieg-admin-nav-actions">
+      <span class="ieg-admin-role-label">Administrator</span>
+      <a class="ieg-admin-profile ieg-admin-profile-link" href="/EssayIQ/admin/profile.php" aria-label="Open Admin Profile">
+        <span class="ieg-admin-avatar ieg-avatar-photo ieg-photo-clip" id="navAdminAvatar"><span id="navAdminInitials">A</span><img id="navAdminPhoto" alt="" hidden></span>
+        <span class="ieg-admin-profile-info"><strong id="navAdminName">System Admin</strong><small>Admin Account</small></span>
+      </a>
+      <button type="button" class="ieg-admin-logout" id="adminLogoutBtn"><span aria-hidden="true">↪</span> Logout</button>
+    </div>
+  </div>
+</header>
+<script
+  src="/EssayIQ/assets/js/admin/common.js"
+  data-logout-url="/EssayIQ/index.php"
+></script>
 <div class="ieg-dashboard-layout">
-    <?php require __DIR__ . '/../includes/sidebar.php'; ?>
+
+
+<aside class="ieg-sidebar" aria-label="Module navigation">
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Admin            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/admin/dashboard.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Dashboard                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/users.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Users                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/submissions.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Submissions                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/analytics.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Analytics                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/profile.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Profile                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/activity-logs.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Activity Logs                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/risk-monitor.php"
+                    class="ieg-sidebar-link ieg-sidebar-active"
+                    aria-current="page"                >
+                    Risk Monitor                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                AI Grading            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/ai/grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/feedback.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Feedback                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/explainable-grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Explainable Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/essay-comparison.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Essay Comparison                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Plagiarism            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/plagiarism/report.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Similarity Report                </a>
+
+
+        </div>
+
+
+</aside>
     <main class="ieg-dashboard-content" id="main">
         <div class="ieg-dashboard-heading">
             <div>
@@ -65,10 +182,10 @@ require __DIR__ . '/../includes/admin-navbar.php';
             </div>
         </div>
         <section class="ieg-stats-grid" aria-label="Risk summary">
-            <div class="ieg-card"><p>High Priority</p><div class="ieg-stat-number"><?= $counts['High'] ?></div></div>
-            <div class="ieg-card"><p>Medium Priority</p><div class="ieg-stat-number"><?= $counts['Medium'] ?></div></div>
-            <div class="ieg-card"><p>Low Priority</p><div class="ieg-stat-number"><?= $counts['Low'] ?></div></div>
-            <div class="ieg-card"><p>Not Assessed</p><div class="ieg-stat-number"><?= $counts['Not Assessed'] ?></div></div>
+            <div class="ieg-card"><p>High Priority</p><div class="ieg-stat-number">1</div></div>
+            <div class="ieg-card"><p>Medium Priority</p><div class="ieg-stat-number">1</div></div>
+            <div class="ieg-card"><p>Low Priority</p><div class="ieg-stat-number">2</div></div>
+            <div class="ieg-card"><p>Not Assessed</p><div class="ieg-stat-number">2</div></div>
         </section>
         <section class="ieg-card ieg-dashboard-section">
             <h2 class="ieg-card-title">Risk Assessment Queue</h2>
@@ -83,25 +200,67 @@ require __DIR__ . '/../includes/admin-navbar.php';
                 <table class="ieg-table" id="riskTable">
                     <thead><tr><th>ID</th><th>Student</th><th>Essay / Course</th><th>Grade</th><th>Similarity</th><th>Status</th><th>Risk</th><th>Explanation</th></tr></thead>
                     <tbody>
-                    <?php foreach ($submissions as $s):
-                        $risk = $s['risk'];
-                        $riskClass = match ($risk['level']) {
-                            'High'=>'ieg-risk-high','Medium'=>'ieg-risk-medium','Low'=>'ieg-risk-low',default=>'ieg-risk-pending'
-                        };
-                        $search = strtolower($s['student'].' '.$s['title'].' '.$s['course'].' '.$s['id']);
-                    ?>
-                    <tr data-risk="<?= htmlspecialchars($risk['level'], ENT_QUOTES, 'UTF-8') ?>" data-search="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>">
-                        <td>#<?= (int)$s['id'] ?></td>
-                        <td><?= htmlspecialchars($s['student'], ENT_QUOTES, 'UTF-8') ?></td>
-                        <td><strong><?= htmlspecialchars($s['title'], ENT_QUOTES, 'UTF-8') ?></strong><div class="ieg-risk-secondary"><?= htmlspecialchars($s['course'], ENT_QUOTES, 'UTF-8') ?></div></td>
-                        <td><?= $s['grade'] === null ? '—' : (int)$s['grade'].'%' ?></td>
-                        <td><?= $s['similarity'] === null ? '—' : (int)$s['similarity'].'%' ?></td>
-                        <td><?= htmlspecialchars($s['status'], ENT_QUOTES, 'UTF-8') ?></td>
-                        <td><span class="ieg-risk-pill <?= $riskClass ?>"><?= htmlspecialchars($risk['level'], ENT_QUOTES, 'UTF-8') ?></span></td>
-                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="<?= htmlspecialchars(json_encode(['student'=>$s['student'],'title'=>$s['title'],'level'=>$risk['level'],'reasons'=>$risk['reasons'],'recommendation'=>$risk['recommendation']], JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_TAG), ENT_QUOTES, 'UTF-8') ?>">Why?</button></td>
+                                        <tr data-risk="Low" data-search="ahmed ali impact of ai on education computer science 101">
+                        <td>#101</td>
+                        <td>Ahmed Ali</td>
+                        <td><strong>Impact of AI on Education</strong><div class="ieg-risk-secondary">Computer Science</div></td>
+                        <td>88%</td>
+                        <td>12%</td>
+                        <td>Graded</td>
+                        <td><span class="ieg-risk-pill ieg-risk-low">Low</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Ahmed Ali&quot;,&quot;title&quot;:&quot;Impact of AI on Education&quot;,&quot;level&quot;:&quot;Low&quot;,&quot;reasons&quot;:[&quot;No configured risk triggers detected&quot;],&quot;recommendation&quot;:&quot;No priority review indicated by these demo rules.&quot;}">Why?</button></td>
                     </tr>
-                    <?php endforeach; ?>
-                    </tbody>
+                                        <tr data-risk="Not Assessed" data-search="sara mohamed climate change essay english writing 102">
+                        <td>#102</td>
+                        <td>Sara Mohamed</td>
+                        <td><strong>Climate Change Essay</strong><div class="ieg-risk-secondary">English Writing</div></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>Pending</td>
+                        <td><span class="ieg-risk-pill ieg-risk-pending">Not Assessed</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Sara Mohamed&quot;,&quot;title&quot;:&quot;Climate Change Essay&quot;,&quot;level&quot;:&quot;Not Assessed&quot;,&quot;reasons&quot;:[&quot;Awaiting grading and similarity results&quot;],&quot;recommendation&quot;:&quot;Wait for assessment results before making a risk decision.&quot;}">Why?</button></td>
+                    </tr>
+                                        <tr data-risk="High" data-search="mona adel ethics in technology software engineering 103">
+                        <td>#103</td>
+                        <td>Mona Adel</td>
+                        <td><strong>Ethics in Technology</strong><div class="ieg-risk-secondary">Software Engineering</div></td>
+                        <td>62%</td>
+                        <td>78%</td>
+                        <td>Flagged</td>
+                        <td><span class="ieg-risk-pill ieg-risk-high">High</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Mona Adel&quot;,&quot;title&quot;:&quot;Ethics in Technology&quot;,&quot;level&quot;:&quot;High&quot;,&quot;reasons&quot;:[&quot;Grade below 65%&quot;,&quot;Similarity of 70% or higher — source review recommended&quot;,&quot;Submission previously flagged for review&quot;],&quot;recommendation&quot;:&quot;Prioritize human review of the essay, rubric, and cited sources.&quot;}">Why?</button></td>
+                    </tr>
+                                        <tr data-risk="Low" data-search="omar khaled future of machine learning artificial intelligence 104">
+                        <td>#104</td>
+                        <td>Omar Khaled</td>
+                        <td><strong>Future of Machine Learning</strong><div class="ieg-risk-secondary">Artificial Intelligence</div></td>
+                        <td>94%</td>
+                        <td>8%</td>
+                        <td>Graded</td>
+                        <td><span class="ieg-risk-pill ieg-risk-low">Low</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Omar Khaled&quot;,&quot;title&quot;:&quot;Future of Machine Learning&quot;,&quot;level&quot;:&quot;Low&quot;,&quot;reasons&quot;:[&quot;No configured risk triggers detected&quot;],&quot;recommendation&quot;:&quot;No priority review indicated by these demo rules.&quot;}">Why?</button></td>
+                    </tr>
+                                        <tr data-risk="Not Assessed" data-search="nour hassan cybersecurity challenges computer networks 105">
+                        <td>#105</td>
+                        <td>Nour Hassan</td>
+                        <td><strong>Cybersecurity Challenges</strong><div class="ieg-risk-secondary">Computer Networks</div></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>Pending</td>
+                        <td><span class="ieg-risk-pill ieg-risk-pending">Not Assessed</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Nour Hassan&quot;,&quot;title&quot;:&quot;Cybersecurity Challenges&quot;,&quot;level&quot;:&quot;Not Assessed&quot;,&quot;reasons&quot;:[&quot;Awaiting grading and similarity results&quot;],&quot;recommendation&quot;:&quot;Wait for assessment results before making a risk decision.&quot;}">Why?</button></td>
+                    </tr>
+                                        <tr data-risk="Medium" data-search="youssef adel social media and society english writing 106">
+                        <td>#106</td>
+                        <td>Youssef Adel</td>
+                        <td><strong>Social Media and Society</strong><div class="ieg-risk-secondary">English Writing</div></td>
+                        <td>73%</td>
+                        <td>46%</td>
+                        <td>Flagged</td>
+                        <td><span class="ieg-risk-pill ieg-risk-medium">Medium</span></td>
+                        <td><button type="button" class="ieg-btn ieg-btn-outline ieg-risk-details-btn" data-details="{&quot;student&quot;:&quot;Youssef Adel&quot;,&quot;title&quot;:&quot;Social Media and Society&quot;,&quot;level&quot;:&quot;Medium&quot;,&quot;reasons&quot;:[&quot;Grade below 75%&quot;,&quot;Similarity of 40% or higher — check citations and sources&quot;,&quot;Submission previously flagged for review&quot;],&quot;recommendation&quot;:&quot;Review the highlighted criteria and source attribution.&quot;}">Why?</button></td>
+                    </tr>
+                                        </tbody>
                 </table>
                 <p class="ieg-muted-note" id="riskEmpty" hidden>No submissions match the selected filters.</p>
             </div>

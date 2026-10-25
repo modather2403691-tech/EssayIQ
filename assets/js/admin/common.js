@@ -1,7 +1,7 @@
 (function () {
     const profileKey = 'essayiq_admin_profile_v1';
     const script = document.currentScript;
-    const logoutUrl = script?.dataset.logoutUrl || '/EssayIQ/EssayIQ/index.php';
+    const logoutUrl = script?.dataset.logoutUrl || '/EssayIQ/index.php';
 
     function initials(name) {
         return name.trim().split(/\s+/).slice(0, 2)

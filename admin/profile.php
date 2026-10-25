@@ -1,44 +1,182 @@
 
-<?php
-$pageTitle = 'Admin Profile - EssayIQ';
 
-// Phase 1 demonstration data
-$admin = [
-    'id' => 'ADM-001',
-    'name' => 'System Admin',
-    'email' => 'admin@example.com',
-    'role' => 'Administrator',
-    'status' => 'Active',
-    'department' => 'Academic Administration',
-    'joined' => '2026-09-01',
-    'lastLogin' => '2026-10-16 09:30 AM'
-];
 
-$recentActivity = [
-    [
-        'action' => 'Reviewed flagged submission',
-        'details' => 'Ethics in Technology',
-        'time' => '2026-10-16 09:25 AM'
-    ],
-    [
-        'action' => 'Viewed user account',
-        'details' => 'Ahmed Ali',
-        'time' => '2026-10-15 02:40 PM'
-    ],
-    [
-        'action' => 'Opened analytics dashboard',
-        'details' => 'Submission statistics',
-        'time' => '2026-10-14 11:10 AM'
-    ]
-];
+<!DOCTYPE html>
+<html lang="en">
 
-require __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/admin-navbar.php';
-?>
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Admin Profile - EssayIQ    </title>
+
+            <link
+            rel="stylesheet"
+            href="/EssayIQ/assets/css/admin.css?v=4"
+        >
+    </head>
+
+<body class="ieg-app">
+<header class="ieg-navbar ieg-admin-navbar">
+  <div class="ieg-navbar-container">
+    <a class="ieg-navbar-brand" href="/EssayIQ/admin/dashboard.php">
+      <svg class="ieg-admin-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="9" fill="url(#iegAdminLogoGradient)"/>
+        <path d="M10 11h12M10 16h8M10 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="23" cy="21" r="3" fill="#fff"/>
+        <defs><linearGradient id="iegAdminLogoGradient" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+      </svg>
+      <span class="ieg-brand-text"><strong>Essay<span>IQ</span></strong><small>Admin Control Center</small></span>
+    </a>
+    <div class="ieg-admin-nav-actions">
+      <span class="ieg-admin-role-label">Administrator</span>
+      <a class="ieg-admin-profile ieg-admin-profile-link" href="/EssayIQ/admin/profile.php" aria-label="Open Admin Profile">
+        <span class="ieg-admin-avatar ieg-avatar-photo ieg-photo-clip" id="navAdminAvatar"><span id="navAdminInitials">A</span><img id="navAdminPhoto" alt="" hidden></span>
+        <span class="ieg-admin-profile-info"><strong id="navAdminName">System Admin</strong><small>Admin Account</small></span>
+      </a>
+      <button type="button" class="ieg-admin-logout" id="adminLogoutBtn"><span aria-hidden="true">↪</span> Logout</button>
+    </div>
+  </div>
+</header>
+<script
+  src="/EssayIQ/assets/js/admin/common.js"
+  data-logout-url="/EssayIQ/index.php"
+></script>
 
 <div class="ieg-dashboard-layout">
 
-    <?php require __DIR__ . '/../includes/sidebar.php'; ?>
+
+
+<aside class="ieg-sidebar" aria-label="Module navigation">
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Admin            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/admin/dashboard.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Dashboard                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/users.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Users                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/submissions.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Submissions                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/analytics.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Analytics                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/profile.php"
+                    class="ieg-sidebar-link ieg-sidebar-active"
+                    aria-current="page"                >
+                    Profile                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/activity-logs.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Activity Logs                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/risk-monitor.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Risk Monitor                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                AI Grading            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/ai/grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/feedback.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Feedback                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/explainable-grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Explainable Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/essay-comparison.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Essay Comparison                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Plagiarism            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/plagiarism/report.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Similarity Report                </a>
+
+
+        </div>
+
+
+</aside>
 
     <main class="ieg-dashboard-content" id="main">
 
@@ -64,17 +202,14 @@ require __DIR__ . '/../includes/admin-navbar.php';
 
                 <div>
                     <h2 id="profileDisplayName">
-                        <?= htmlspecialchars($admin['name'], ENT_QUOTES, 'UTF-8') ?>
-                    </h2>
+                        System Admin                    </h2>
 
                     <p class="ieg-profile-subtitle">
-                        <?= htmlspecialchars($admin['role'], ENT_QUOTES, 'UTF-8') ?>
-                        · EssayIQ
+                        Administrator                        · EssayIQ
                     </p>
 
                     <span class="ieg-badge ieg-badge-success">
-                        <?= htmlspecialchars($admin['status'], ENT_QUOTES, 'UTF-8') ?>
-                    </span>
+                        Active                    </span>
                 </div>
             </div>
 
@@ -100,43 +235,37 @@ require __DIR__ . '/../includes/admin-navbar.php';
                 <div>
                     <span class="ieg-profile-label">Admin ID</span>
                     <strong>
-                        <?= htmlspecialchars($admin['id'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        ADM-001                    </strong>
                 </div>
 
                 <div>
                     <span class="ieg-profile-label">Full Name</span>
                     <strong id="profileName">
-                        <?= htmlspecialchars($admin['name'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        System Admin                    </strong>
                 </div>
 
                 <div>
                     <span class="ieg-profile-label">Email Address</span>
                     <strong id="profileEmail">
-                        <?= htmlspecialchars($admin['email'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        admin@example.com                    </strong>
                 </div>
 
                 <div>
                     <span class="ieg-profile-label">Role</span>
                     <strong>
-                        <?= htmlspecialchars($admin['role'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        Administrator                    </strong>
                 </div>
 
                 <div>
                     <span class="ieg-profile-label">Department</span>
                     <strong id="profileDepartment">
-                        <?= htmlspecialchars($admin['department'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        Academic Administration                    </strong>
                 </div>
 
                 <div>
                     <span class="ieg-profile-label">Member Since</span>
                     <strong>
-                        <?= htmlspecialchars($admin['joined'], ENT_QUOTES, 'UTF-8') ?>
-                    </strong>
+                        2026-09-01                    </strong>
                 </div>
 
             </div>
@@ -182,8 +311,7 @@ require __DIR__ . '/../includes/admin-navbar.php';
                 <div>
                     <strong>Last Login</strong>
                     <p class="ieg-muted-note">
-                        <?= htmlspecialchars($admin['lastLogin'], ENT_QUOTES, 'UTF-8') ?>
-                        (Demo)
+                        2026-10-16 09:30 AM                        (Demo)
                     </p>
                 </div>
             </div>
@@ -197,29 +325,56 @@ require __DIR__ . '/../includes/admin-navbar.php';
                 Recent Account Activity
             </h2>
 
-            <?php foreach ($recentActivity as $activity): ?>
 
                 <div class="ieg-activity-item">
 
                     <div>
                         <strong>
-                            <?= htmlspecialchars($activity['action'], ENT_QUOTES, 'UTF-8') ?>
-                        </strong>
+                            Reviewed flagged submission                        </strong>
 
                         <p>
-                            <?= htmlspecialchars($activity['details'], ENT_QUOTES, 'UTF-8') ?>
-                        </p>
+                            Ethics in Technology                        </p>
                     </div>
 
                     <span>
-                        <?= htmlspecialchars($activity['time'], ENT_QUOTES, 'UTF-8') ?>
-                    </span>
+                        2026-10-16 09:25 AM                    </span>
 
                 </div>
 
-            <?php endforeach; ?>
 
-    
+                <div class="ieg-activity-item">
+
+                    <div>
+                        <strong>
+                            Viewed user account                        </strong>
+
+                        <p>
+                            Ahmed Ali                        </p>
+                    </div>
+
+                    <span>
+                        2026-10-15 02:40 PM                    </span>
+
+                </div>
+
+
+                <div class="ieg-activity-item">
+
+                    <div>
+                        <strong>
+                            Opened analytics dashboard                        </strong>
+
+                        <p>
+                            Submission statistics                        </p>
+                    </div>
+
+                    <span>
+                        2026-10-14 11:10 AM                    </span>
+
+                </div>
+
+
+
         </section>
 
     </main>

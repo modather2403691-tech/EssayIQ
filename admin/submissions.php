@@ -1,103 +1,182 @@
 
-<?php
-$pageTitle = 'Submission Management - EssayIQ';
 
-// Phase 1: Demo submissions
-$submissions = [
-    [
-        'id' => 101,
-        'student' => 'Ahmed Ali',
-        'title' => 'Impact of AI on Education',
-        'course' => 'Computer Science',
-        'date' => '2026-10-10',
-        'grade' => 88,
-        'similarity' => 12,
-        'status' => 'Graded',
-        'note' => 'Essay graded successfully. Minor grammar improvements suggested.'
-    ],
-    [
-        'id' => 102,
-        'student' => 'Sara Mohamed',
-        'title' => 'Climate Change Essay',
-        'course' => 'English Writing',
-        'date' => '2026-10-11',
-        'grade' => null,
-        'similarity' => null,
-        'status' => 'Pending',
-        'note' => 'Waiting for grading and similarity analysis.'
-    ],
-    [
-        'id' => 103,
-        'student' => 'Mona Adel',
-        'title' => 'Ethics in Technology',
-        'course' => 'Software Engineering',
-        'date' => '2026-10-12',
-        'grade' => 62,
-        'similarity' => 78,
-        'status' => 'Flagged',
-        'note' => 'High text similarity detected. Human review is recommended.'
-    ],
-    [
-        'id' => 104,
-        'student' => 'Omar Khaled',
-        'title' => 'Future of Machine Learning',
-        'course' => 'Artificial Intelligence',
-        'date' => '2026-10-13',
-        'grade' => 94,
-        'similarity' => 8,
-        'status' => 'Graded',
-        'note' => 'Strong essay structure and clear supporting arguments.'
-    ],
-    [
-        'id' => 105,
-        'student' => 'Nour Hassan',
-        'title' => 'Cybersecurity Challenges',
-        'course' => 'Computer Networks',
-        'date' => '2026-10-14',
-        'grade' => null,
-        'similarity' => null,
-        'status' => 'Pending',
-        'note' => 'Submission received and awaiting analysis.'
-    ],
-    [
-        'id' => 106,
-        'student' => 'Youssef Adel',
-        'title' => 'Social Media and Society',
-        'course' => 'English Writing',
-        'date' => '2026-10-15',
-        'grade' => 73,
-        'similarity' => 46,
-        'status' => 'Flagged',
-        'note' => 'Several passages need source attribution review.'
-    ]
-];
 
-// Calculate statistics
-$totalSubmissions = count($submissions);
+<!DOCTYPE html>
+<html lang="en">
 
-$totalGraded = count(array_filter(
-    $submissions,
-    fn($item) => $item['status'] === 'Graded'
-));
+<head>
+    <meta charset="UTF-8">
 
-$totalPending = count(array_filter(
-    $submissions,
-    fn($item) => $item['status'] === 'Pending'
-));
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-$totalFlagged = count(array_filter(
-    $submissions,
-    fn($item) => $item['status'] === 'Flagged'
-));
+    <title>
+        Submission Management - EssayIQ    </title>
 
-// Shared layout
-require __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/admin-navbar.php';
-?>
+            <link
+            rel="stylesheet"
+            href="/EssayIQ/assets/css/admin.css?v=4"
+        >
+    </head>
+
+<body class="ieg-app">
+<header class="ieg-navbar ieg-admin-navbar">
+  <div class="ieg-navbar-container">
+    <a class="ieg-navbar-brand" href="/EssayIQ/admin/dashboard.php">
+      <svg class="ieg-admin-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="9" fill="url(#iegAdminLogoGradient)"/>
+        <path d="M10 11h12M10 16h8M10 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="23" cy="21" r="3" fill="#fff"/>
+        <defs><linearGradient id="iegAdminLogoGradient" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+      </svg>
+      <span class="ieg-brand-text"><strong>Essay<span>IQ</span></strong><small>Admin Control Center</small></span>
+    </a>
+    <div class="ieg-admin-nav-actions">
+      <span class="ieg-admin-role-label">Administrator</span>
+      <a class="ieg-admin-profile ieg-admin-profile-link" href="/EssayIQ/admin/profile.php" aria-label="Open Admin Profile">
+        <span class="ieg-admin-avatar ieg-avatar-photo ieg-photo-clip" id="navAdminAvatar"><span id="navAdminInitials">A</span><img id="navAdminPhoto" alt="" hidden></span>
+        <span class="ieg-admin-profile-info"><strong id="navAdminName">System Admin</strong><small>Admin Account</small></span>
+      </a>
+      <button type="button" class="ieg-admin-logout" id="adminLogoutBtn"><span aria-hidden="true">↪</span> Logout</button>
+    </div>
+  </div>
+</header>
+<script
+  src="/EssayIQ/assets/js/admin/common.js"
+  data-logout-url="/EssayIQ/index.php"
+></script>
 
 <div class="ieg-dashboard-layout">
 
-    <?php require __DIR__ . '/../includes/sidebar.php'; ?>
+
+
+<aside class="ieg-sidebar" aria-label="Module navigation">
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Admin            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/admin/dashboard.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Dashboard                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/users.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Users                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/submissions.php"
+                    class="ieg-sidebar-link ieg-sidebar-active"
+                    aria-current="page"                >
+                    Submissions                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/analytics.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Analytics                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/profile.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Profile                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/activity-logs.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Activity Logs                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/risk-monitor.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Risk Monitor                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                AI Grading            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/ai/grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/feedback.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Feedback                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/explainable-grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Explainable Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/essay-comparison.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Essay Comparison                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Plagiarism            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/plagiarism/report.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Similarity Report                </a>
+
+
+        </div>
+
+
+</aside>
 
     <main class="ieg-dashboard-content" id="main">
 
@@ -121,29 +200,25 @@ require __DIR__ . '/../includes/admin-navbar.php';
             <div class="ieg-card">
                 <p>Total Submissions</p>
                 <div class="ieg-stat-number">
-                    <?= $totalSubmissions ?>
-                </div>
+                    6                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Graded</p>
                 <div class="ieg-stat-number">
-                    <?= $totalGraded ?>
-                </div>
+                    2                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Pending</p>
                 <div class="ieg-stat-number">
-                    <?= $totalPending ?>
-                </div>
+                    2                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Flagged</p>
                 <div class="ieg-stat-number">
-                    <?= $totalFlagged ?>
-                </div>
+                    2                </div>
             </div>
 
         </section>
@@ -202,65 +277,38 @@ require __DIR__ . '/../includes/admin-navbar.php';
 
                     <tbody>
 
-                        <?php foreach ($submissions as $submission): ?>
 
-                            <?php
-                            $status = $submission['status'];
-
-                            $badgeClass = match ($status) {
-                                'Graded' => 'ieg-badge-success',
-                                'Pending' => 'ieg-badge-warning',
-                                'Flagged' => 'ieg-badge-danger',
-                                default => ''
-                            };
-
-                            $gradeText = $submission['grade'] === null
-                                ? '—'
-                                : $submission['grade'] . '%';
-
-                            $similarityText = $submission['similarity'] === null
-                                ? '—'
-                                : $submission['similarity'] . '%';
-                            ?>
 
                             <tr
-                                data-status="<?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>"
-                                data-student="<?= htmlspecialchars($submission['student'], ENT_QUOTES, 'UTF-8') ?>"
-                                data-title="<?= htmlspecialchars($submission['title'], ENT_QUOTES, 'UTF-8') ?>"
+                                data-status="Graded"
+                                data-student="Ahmed Ali"
+                                data-title="Impact of AI on Education"
                             >
 
                                 <td>
-                                    #<?= (int)$submission['id'] ?>
-                                </td>
+                                    #101                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($submission['student'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    Ahmed Ali                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($submission['title'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    Impact of AI on Education                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($submission['course'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    Computer Science                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($submission['date'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    2026-10-10                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($gradeText, ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    88%                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($similarityText, ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    12%                                </td>
 
                                 <td>
-                                    <span class="ieg-badge <?= $badgeClass ?>">
-                                        <?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>
-                                    </span>
+                                    <span class="ieg-badge ieg-badge-success">
+                                        Graded                                    </span>
                                 </td>
 
                                 <td>
@@ -268,15 +316,15 @@ require __DIR__ . '/../includes/admin-navbar.php';
                                         type="button"
                                         class="ieg-btn ieg-btn-outline view-submission-btn"
 
-                                        data-id="<?= (int)$submission['id'] ?>"
-                                        data-student="<?= htmlspecialchars($submission['student'], ENT_QUOTES, 'UTF-8') ?>"
-                                        data-title="<?= htmlspecialchars($submission['title'], ENT_QUOTES, 'UTF-8') ?>"
-                                        data-course="<?= htmlspecialchars($submission['course'], ENT_QUOTES, 'UTF-8') ?>"
-                                        data-date="<?= htmlspecialchars($submission['date'], ENT_QUOTES, 'UTF-8') ?>"
-                                        data-grade="<?= htmlspecialchars($gradeText, ENT_QUOTES, 'UTF-8') ?>"
-                                        data-similarity="<?= htmlspecialchars($similarityText, ENT_QUOTES, 'UTF-8') ?>"
-                                        data-status="<?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>"
-                                        data-note="<?= htmlspecialchars($submission['note'], ENT_QUOTES, 'UTF-8') ?>"
+                                        data-id="101"
+                                        data-student="Ahmed Ali"
+                                        data-title="Impact of AI on Education"
+                                        data-course="Computer Science"
+                                        data-date="2026-10-10"
+                                        data-grade="88%"
+                                        data-similarity="12%"
+                                        data-status="Graded"
+                                        data-note="Essay graded successfully. Minor grammar improvements suggested."
                                     >
                                         View Details
                                     </button>
@@ -284,7 +332,281 @@ require __DIR__ . '/../includes/admin-navbar.php';
 
                             </tr>
 
-                        <?php endforeach; ?>
+
+
+                            <tr
+                                data-status="Pending"
+                                data-student="Sara Mohamed"
+                                data-title="Climate Change Essay"
+                            >
+
+                                <td>
+                                    #102                                </td>
+
+                                <td>
+                                    Sara Mohamed                                </td>
+
+                                <td>
+                                    Climate Change Essay                                </td>
+
+                                <td>
+                                    English Writing                                </td>
+
+                                <td>
+                                    2026-10-11                                </td>
+
+                                <td>
+                                    —                                </td>
+
+                                <td>
+                                    —                                </td>
+
+                                <td>
+                                    <span class="ieg-badge ieg-badge-warning">
+                                        Pending                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="ieg-btn ieg-btn-outline view-submission-btn"
+
+                                        data-id="102"
+                                        data-student="Sara Mohamed"
+                                        data-title="Climate Change Essay"
+                                        data-course="English Writing"
+                                        data-date="2026-10-11"
+                                        data-grade="—"
+                                        data-similarity="—"
+                                        data-status="Pending"
+                                        data-note="Waiting for grading and similarity analysis."
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+
+                            <tr
+                                data-status="Flagged"
+                                data-student="Mona Adel"
+                                data-title="Ethics in Technology"
+                            >
+
+                                <td>
+                                    #103                                </td>
+
+                                <td>
+                                    Mona Adel                                </td>
+
+                                <td>
+                                    Ethics in Technology                                </td>
+
+                                <td>
+                                    Software Engineering                                </td>
+
+                                <td>
+                                    2026-10-12                                </td>
+
+                                <td>
+                                    62%                                </td>
+
+                                <td>
+                                    78%                                </td>
+
+                                <td>
+                                    <span class="ieg-badge ieg-badge-danger">
+                                        Flagged                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="ieg-btn ieg-btn-outline view-submission-btn"
+
+                                        data-id="103"
+                                        data-student="Mona Adel"
+                                        data-title="Ethics in Technology"
+                                        data-course="Software Engineering"
+                                        data-date="2026-10-12"
+                                        data-grade="62%"
+                                        data-similarity="78%"
+                                        data-status="Flagged"
+                                        data-note="High text similarity detected. Human review is recommended."
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+
+                            <tr
+                                data-status="Graded"
+                                data-student="Omar Khaled"
+                                data-title="Future of Machine Learning"
+                            >
+
+                                <td>
+                                    #104                                </td>
+
+                                <td>
+                                    Omar Khaled                                </td>
+
+                                <td>
+                                    Future of Machine Learning                                </td>
+
+                                <td>
+                                    Artificial Intelligence                                </td>
+
+                                <td>
+                                    2026-10-13                                </td>
+
+                                <td>
+                                    94%                                </td>
+
+                                <td>
+                                    8%                                </td>
+
+                                <td>
+                                    <span class="ieg-badge ieg-badge-success">
+                                        Graded                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="ieg-btn ieg-btn-outline view-submission-btn"
+
+                                        data-id="104"
+                                        data-student="Omar Khaled"
+                                        data-title="Future of Machine Learning"
+                                        data-course="Artificial Intelligence"
+                                        data-date="2026-10-13"
+                                        data-grade="94%"
+                                        data-similarity="8%"
+                                        data-status="Graded"
+                                        data-note="Strong essay structure and clear supporting arguments."
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+
+                            <tr
+                                data-status="Pending"
+                                data-student="Nour Hassan"
+                                data-title="Cybersecurity Challenges"
+                            >
+
+                                <td>
+                                    #105                                </td>
+
+                                <td>
+                                    Nour Hassan                                </td>
+
+                                <td>
+                                    Cybersecurity Challenges                                </td>
+
+                                <td>
+                                    Computer Networks                                </td>
+
+                                <td>
+                                    2026-10-14                                </td>
+
+                                <td>
+                                    —                                </td>
+
+                                <td>
+                                    —                                </td>
+
+                                <td>
+                                    <span class="ieg-badge ieg-badge-warning">
+                                        Pending                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="ieg-btn ieg-btn-outline view-submission-btn"
+
+                                        data-id="105"
+                                        data-student="Nour Hassan"
+                                        data-title="Cybersecurity Challenges"
+                                        data-course="Computer Networks"
+                                        data-date="2026-10-14"
+                                        data-grade="—"
+                                        data-similarity="—"
+                                        data-status="Pending"
+                                        data-note="Submission received and awaiting analysis."
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+
+                            <tr
+                                data-status="Flagged"
+                                data-student="Youssef Adel"
+                                data-title="Social Media and Society"
+                            >
+
+                                <td>
+                                    #106                                </td>
+
+                                <td>
+                                    Youssef Adel                                </td>
+
+                                <td>
+                                    Social Media and Society                                </td>
+
+                                <td>
+                                    English Writing                                </td>
+
+                                <td>
+                                    2026-10-15                                </td>
+
+                                <td>
+                                    73%                                </td>
+
+                                <td>
+                                    46%                                </td>
+
+                                <td>
+                                    <span class="ieg-badge ieg-badge-danger">
+                                        Flagged                                    </span>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="ieg-btn ieg-btn-outline view-submission-btn"
+
+                                        data-id="106"
+                                        data-student="Youssef Adel"
+                                        data-title="Social Media and Society"
+                                        data-course="English Writing"
+                                        data-date="2026-10-15"
+                                        data-grade="73%"
+                                        data-similarity="46%"
+                                        data-status="Flagged"
+                                        data-note="Several passages need source attribution review."
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+
+                            </tr>
+
 
                     </tbody>
                 </table>

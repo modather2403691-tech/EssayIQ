@@ -1,73 +1,182 @@
 
-<?php
-// Page title
-$pageTitle = 'Advanced User Management - EssayIQ';
 
-// Phase 1 demo data
-$users = [
-    [
-        'id' => 1,
-        'name' => 'Ahmed Ali',
-        'email' => 'ahmed@example.com',
-        'role' => 'Student',
-        'status' => 'Active'
-    ],
-    [
-        'id' => 2,
-        'name' => 'Sara Mohamed',
-        'email' => 'sara@example.com',
-        'role' => 'Student',
-        'status' => 'Active'
-    ],
-    [
-        'id' => 3,
-        'name' => 'Dr. Omar Hassan',
-        'email' => 'omar@example.com',
-        'role' => 'Instructor',
-        'status' => 'Active'
-    ],
-    [
-        'id' => 4,
-        'name' => 'Mona Adel',
-        'email' => 'mona@example.com',
-        'role' => 'Student',
-        'status' => 'Inactive'
-    ],
-    [
-        'id' => 5,
-        'name' => 'System Admin',
-        'email' => 'admin@example.com',
-        'role' => 'Administrator',
-        'status' => 'Active'
-    ]
-];
 
-// Calculate statistics
-$totalUsers = count($users);
+<!DOCTYPE html>
+<html lang="en">
 
-$totalStudents = count(array_filter(
-    $users,
-    fn($user) => $user['role'] === 'Student'
-));
+<head>
+    <meta charset="UTF-8">
 
-$totalInstructors = count(array_filter(
-    $users,
-    fn($user) => $user['role'] === 'Instructor'
-));
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-$totalActive = count(array_filter(
-    $users,
-    fn($user) => $user['status'] === 'Active'
-));
+    <title>
+        Advanced User Management - EssayIQ    </title>
 
-// Reuse project layout
-require __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/admin-navbar.php';
-?>
+            <link
+            rel="stylesheet"
+            href="/EssayIQ/assets/css/admin.css?v=4"
+        >
+    </head>
+
+<body class="ieg-app">
+<header class="ieg-navbar ieg-admin-navbar">
+  <div class="ieg-navbar-container">
+    <a class="ieg-navbar-brand" href="/EssayIQ/admin/dashboard.php">
+      <svg class="ieg-admin-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="9" fill="url(#iegAdminLogoGradient)"/>
+        <path d="M10 11h12M10 16h8M10 21h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="23" cy="21" r="3" fill="#fff"/>
+        <defs><linearGradient id="iegAdminLogoGradient" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+      </svg>
+      <span class="ieg-brand-text"><strong>Essay<span>IQ</span></strong><small>Admin Control Center</small></span>
+    </a>
+    <div class="ieg-admin-nav-actions">
+      <span class="ieg-admin-role-label">Administrator</span>
+      <a class="ieg-admin-profile ieg-admin-profile-link" href="/EssayIQ/admin/profile.php" aria-label="Open Admin Profile">
+        <span class="ieg-admin-avatar ieg-avatar-photo ieg-photo-clip" id="navAdminAvatar"><span id="navAdminInitials">A</span><img id="navAdminPhoto" alt="" hidden></span>
+        <span class="ieg-admin-profile-info"><strong id="navAdminName">System Admin</strong><small>Admin Account</small></span>
+      </a>
+      <button type="button" class="ieg-admin-logout" id="adminLogoutBtn"><span aria-hidden="true">↪</span> Logout</button>
+    </div>
+  </div>
+</header>
+<script
+  src="/EssayIQ/assets/js/admin/common.js"
+  data-logout-url="/EssayIQ/index.php"
+></script>
 
 <div class="ieg-dashboard-layout">
 
-    <?php require __DIR__ . '/../includes/sidebar.php'; ?>
+
+
+<aside class="ieg-sidebar" aria-label="Module navigation">
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Admin            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/admin/dashboard.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Dashboard                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/users.php"
+                    class="ieg-sidebar-link ieg-sidebar-active"
+                    aria-current="page"                >
+                    Users                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/submissions.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Submissions                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/analytics.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Analytics                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/profile.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Profile                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/activity-logs.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Activity Logs                </a>
+
+
+
+                <a
+                    href="/EssayIQ/admin/risk-monitor.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Risk Monitor                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                AI Grading            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/ai/grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/feedback.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Feedback                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/explainable-grading.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Explainable Grading                </a>
+
+
+
+                <a
+                    href="/EssayIQ/ai/essay-comparison.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Essay Comparison                </a>
+
+
+        </div>
+
+
+        <div class="ieg-sidebar-section">
+
+            <h2 class="ieg-sidebar-heading">
+                Plagiarism            </h2>
+
+
+
+                <a
+                    href="/EssayIQ/plagiarism/report.php"
+                    class="ieg-sidebar-link"
+                                    >
+                    Similarity Report                </a>
+
+
+        </div>
+
+
+</aside>
 
     <main class="ieg-dashboard-content" id="main">
 
@@ -90,29 +199,25 @@ require __DIR__ . '/../includes/admin-navbar.php';
             <div class="ieg-card">
                 <p>Total Users</p>
                 <div class="ieg-stat-number" id="totalUserCount">
-                    <?= $totalUsers ?>
-                </div>
+                    5                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Students</p>
                 <div class="ieg-stat-number" id="studentCount">
-                    <?= $totalStudents ?>
-                </div>
+                    3                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Instructors</p>
                 <div class="ieg-stat-number" id="instructorCount">
-                    <?= $totalInstructors ?>
-                </div>
+                    1                </div>
             </div>
 
             <div class="ieg-card">
                 <p>Active Users</p>
                 <div class="ieg-stat-number" id="activeCount">
-                    <?= $totalActive ?>
-                </div>
+                    4                </div>
             </div>
 
         </section>
@@ -180,43 +285,31 @@ require __DIR__ . '/../includes/admin-navbar.php';
 
                     <tbody>
 
-                        <?php foreach ($users as $user): ?>
 
                             <tr
-                                data-id="<?= (int)$user['id'] ?>"
-                                data-name="<?= htmlspecialchars($user['name'], ENT_QUOTES, 'UTF-8') ?>"
-                                data-email="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8') ?>"
-                                data-role="<?= htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8') ?>"
-                                data-status="<?= htmlspecialchars($user['status'], ENT_QUOTES, 'UTF-8') ?>"
+                                data-id="1"
+                                data-name="Ahmed Ali"
+                                data-email="ahmed@example.com"
+                                data-role="Student"
+                                data-status="Active"
                             >
 
                                 <td>
-                                    #<?= (int)$user['id'] ?>
-                                </td>
+                                    #1                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($user['name'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    Ahmed Ali                                </td>
 
                                 <td>
-                                    <?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    ahmed@example.com                                </td>
 
                                 <td class="user-role">
-                                    <?= htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8') ?>
-                                </td>
+                                    Student                                </td>
 
                                 <td>
-                                    <?php
-                                    $badgeClass =
-                                        $user['status'] === 'Active'
-                                        ? 'ieg-badge-success'
-                                        : 'ieg-badge-danger';
-                                    ?>
 
-                                    <span class="ieg-badge user-status <?= $badgeClass ?>">
-                                        <?= htmlspecialchars($user['status'], ENT_QUOTES, 'UTF-8') ?>
-                                    </span>
+                                    <span class="ieg-badge user-status ieg-badge-success">
+                                        Active                                    </span>
                                 </td>
 
                                 <td>
@@ -230,14 +323,188 @@ require __DIR__ . '/../includes/admin-navbar.php';
                                         </button>
                                         <button type="button" class="ieg-btn ieg-btn-outline toggle-status-btn"
                                             >
-                                            <?= $user['status'] === 'Active' ? 'Deactivate' : 'Activate' ?>
-                                        </button>
+                                            Deactivate                                        </button>
                                     </div>
                                 </td>
 
                             </tr>
 
-                        <?php endforeach; ?>
+
+                            <tr
+                                data-id="2"
+                                data-name="Sara Mohamed"
+                                data-email="sara@example.com"
+                                data-role="Student"
+                                data-status="Active"
+                            >
+
+                                <td>
+                                    #2                                </td>
+
+                                <td>
+                                    Sara Mohamed                                </td>
+
+                                <td>
+                                    sara@example.com                                </td>
+
+                                <td class="user-role">
+                                    Student                                </td>
+
+                                <td>
+
+                                    <span class="ieg-badge user-status ieg-badge-success">
+                                        Active                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="ieg-user-actions">
+                                        <button type="button" class="ieg-btn ieg-btn-outline view-user-btn">
+                                            View Details
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline change-role-btn"
+                                            >
+                                            Change Role
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline toggle-status-btn"
+                                            >
+                                            Deactivate                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-id="3"
+                                data-name="Dr. Omar Hassan"
+                                data-email="omar@example.com"
+                                data-role="Instructor"
+                                data-status="Active"
+                            >
+
+                                <td>
+                                    #3                                </td>
+
+                                <td>
+                                    Dr. Omar Hassan                                </td>
+
+                                <td>
+                                    omar@example.com                                </td>
+
+                                <td class="user-role">
+                                    Instructor                                </td>
+
+                                <td>
+
+                                    <span class="ieg-badge user-status ieg-badge-success">
+                                        Active                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="ieg-user-actions">
+                                        <button type="button" class="ieg-btn ieg-btn-outline view-user-btn">
+                                            View Details
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline change-role-btn"
+                                            >
+                                            Change Role
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline toggle-status-btn"
+                                            >
+                                            Deactivate                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-id="4"
+                                data-name="Mona Adel"
+                                data-email="mona@example.com"
+                                data-role="Student"
+                                data-status="Inactive"
+                            >
+
+                                <td>
+                                    #4                                </td>
+
+                                <td>
+                                    Mona Adel                                </td>
+
+                                <td>
+                                    mona@example.com                                </td>
+
+                                <td class="user-role">
+                                    Student                                </td>
+
+                                <td>
+
+                                    <span class="ieg-badge user-status ieg-badge-danger">
+                                        Inactive                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="ieg-user-actions">
+                                        <button type="button" class="ieg-btn ieg-btn-outline view-user-btn">
+                                            View Details
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline change-role-btn"
+                                            >
+                                            Change Role
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline toggle-status-btn"
+                                            >
+                                            Activate                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-id="5"
+                                data-name="System Admin"
+                                data-email="admin@example.com"
+                                data-role="Administrator"
+                                data-status="Active"
+                            >
+
+                                <td>
+                                    #5                                </td>
+
+                                <td>
+                                    System Admin                                </td>
+
+                                <td>
+                                    admin@example.com                                </td>
+
+                                <td class="user-role">
+                                    Administrator                                </td>
+
+                                <td>
+
+                                    <span class="ieg-badge user-status ieg-badge-success">
+                                        Active                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="ieg-user-actions">
+                                        <button type="button" class="ieg-btn ieg-btn-outline view-user-btn">
+                                            View Details
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline change-role-btn"
+                                            >
+                                            Change Role
+                                        </button>
+                                        <button type="button" class="ieg-btn ieg-btn-outline toggle-status-btn"
+                                            >
+                                            Deactivate                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+
 
                     </tbody>
 
