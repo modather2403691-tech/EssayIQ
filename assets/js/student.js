@@ -307,3 +307,44 @@ if (chart) {
 
   chart.replaceChildren(svg);
 }
+
+const discussionList = document.getElementById('studentDiscussionList');
+if (discussionList) {
+  const discussionCards = Array.from(discussionList.querySelectorAll('.discussion-item'));
+  const discussionFilter = document.getElementById('studentForumFilter');
+  const discussionSearch = document.getElementById('studentForumSearch');
+  const discussionEmpty = document.getElementById('studentForumEmpty');
+
+  function filterDiscussions() {
+    const selectedType = discussionFilter ? discussionFilter.value : 'all';
+    const query = discussionSearch ? discussionSearch.value.trim().toLocaleLowerCase() : '';
+    let visibleCount = 0;
+
+    discussionCards.forEach(card => {
+      const matchesType = selectedType === 'all' || card.dataset.type === selectedType;
+      const matchesSearch = !query || card.textContent.toLocaleLowerCase().includes(query);
+      const visible = matchesType && matchesSearch;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    });
+
+    if (discussionEmpty) discussionEmpty.hidden = visibleCount > 0;
+  }
+
+  if (discussionFilter) discussionFilter.addEventListener('change', filterDiscussions);
+  if (discussionSearch) discussionSearch.addEventListener('input', filterDiscussions);
+
+  discussionCards.forEach(card => {
+    const likeButton = card.querySelector('.discussion-like');
+    if (!likeButton) return;
+
+    likeButton.addEventListener('click', () => {
+      const liked = likeButton.getAttribute('aria-pressed') === 'true';
+      const count = likeButton.querySelector('b');
+      if (!count) return;
+
+      count.textContent = String(Number(count.textContent) + (liked ? -1 : 1));
+      likeButton.setAttribute('aria-pressed', String(!liked));
+    });
+  });
+}

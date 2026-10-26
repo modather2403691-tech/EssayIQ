@@ -14,6 +14,8 @@ $navItems = [
     'assignments'  => ['assignments.php',  'Assignments'],
     'submit-essay' => ['submit-essay.php', 'Submit Essay'],
     'progress'     => ['progress.php',     'Progress'],
+    'certifications' => ['certifications.php', 'Certificates'],
+    'forum'        => ['forum.php',        'Forum'],
 ];
 ?>
 <!DOCTYPE html>

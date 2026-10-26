@@ -9,6 +9,8 @@
         <a href="assignments.php">Assignments</a>
         <a href="submit-essay.php">Submit Essay</a>
         <a href="progress.php">Progress</a>
+        <a href="certifications.php">Certificates</a>
+        <a href="forum.php">Forum</a>
       </nav>
       <small>&copy; <?php echo date('Y'); ?> EssayIQ. All rights reserved.</small>
     </div>
