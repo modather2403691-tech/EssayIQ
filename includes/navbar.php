@@ -1,4 +1,4 @@
-<?php $baseUrl = $baseUrl ?? '/EssayIQ/EssayIQ'; ?>
+<?php $baseUrl = $baseUrl ?? '/EssayIQ'; ?>
 <nav class="ieg-navbar" aria-label="Main navigation">
   <div class="ieg-navbar-container">
     <a class="ieg-navbar-brand" href="<?= $baseUrl ?>/index.php">

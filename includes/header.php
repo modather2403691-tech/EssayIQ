@@ -3,7 +3,7 @@
 // Reusable document header for EssayIQ internal prototype pages.
 
 $pageTitle = $pageTitle ?? 'EssayIQ';
-$baseUrl = '/EssayIQ/EssayIQ';
+$baseUrl = '/EssayIQ';
 
 // Identify the folder of the requested PHP page
 $currentModule = basename(dirname($_SERVER['SCRIPT_FILENAME']));

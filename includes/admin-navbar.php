@@ -1,6 +1,6 @@
 <?php
 // Admin navigation bar — Phase 1 demo
-$baseUrl = $baseUrl ?? '/EssayIQ/EssayIQ';
+$baseUrl = $baseUrl ?? '/EssayIQ';
 ?>
 <header class="ieg-navbar ieg-admin-navbar">
   <div class="ieg-navbar-container">

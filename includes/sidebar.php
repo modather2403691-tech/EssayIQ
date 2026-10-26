@@ -1,7 +1,7 @@
 
 <?php
 // Base URL for the EssayIQ project
-$baseUrl = $baseUrl ?? '/EssayIQ/EssayIQ';
+$baseUrl = $baseUrl ?? '/EssayIQ';
 
 // Get the current page path
 $currentPath = parse_url(
