@@ -2,6 +2,15 @@
 <?php
 session_start();
 
+if (
+    !isset($_SESSION['user_id']) ||
+    !isset($_SESSION['user_role']) ||
+    $_SESSION['user_role'] !== 'instructor'
+) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 $conn = new mysqli("localhost", "root", "", "essayiq");
 
 if ($conn->connect_error) {
@@ -10,54 +19,52 @@ if ($conn->connect_error) {
 
 $conn->set_charset("utf8mb4");
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../auth/login.php");
-    exit;
-}
-
-$instructor_id = (int) $_SESSION['user_id'];
-$error = "";
+$instructorId = (int) $_SESSION['user_id'];
 $submissions = [];
+$error = "";
 
-$check = $conn->query("SHOW TABLES LIKE 'submissions'");
+$sql = "SELECT
+            s.id,
+            s.essay_text,
+            s.submitted_at,
+            s.status,
+            s.grade,
+            u.name AS student_name,
+            u.email AS student_email,
+            a.title AS assignment_title
+        FROM submissions s
+        INNER JOIN users u ON s.student_id = u.id
+        INNER JOIN assignments a ON s.assignment_id = a.id
+        WHERE a.instructor_id = ?
+        ORDER BY s.submitted_at DESC";
 
-if (!$check || $check->num_rows === 0) {
-    $error = "Submissions table not found. Run the SQL first.";
-} else {
-    $sql = "SELECT
-                s.id,
-                s.essay_text,
-                s.submitted_at,
-                s.status,
-                s.grade,
-                u.name AS student_name,
-                u.email AS student_email,
-                a.title AS assignment_title
-            FROM submissions s
-            INNER JOIN users u ON s.student_id = u.id
-            INNER JOIN assignments a ON s.assignment_id = a.id
-            WHERE a.instructor_id = ?
-            ORDER BY s.submitted_at DESC";
+$stmt = $conn->prepare($sql);
 
-    $stmt = $conn->prepare($sql);
+if ($stmt) {
+    $stmt->bind_param("i", $instructorId);
+    $stmt->execute();
 
-    if ($stmt) {
-        $stmt->bind_param("i", $instructor_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $result = $stmt->get_result();
 
-        while ($row = $result->fetch_assoc()) {
-            $submissions[] = $row;
-        }
-
-        $stmt->close();
-    } else {
-        $error = "Could not load submissions. Check your database columns.";
+    while ($row = $result->fetch_assoc()) {
+        $submissions[] = $row;
     }
+
+    $stmt->close();
+} else {
+    $error = "Could not load submissions. Check your database tables.";
 }
 
 function e($value) {
-    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+$pending = 0;
+
+foreach ($submissions as $item) {
+    if (strtolower($item['status'] ?? '') === 'pending') {
+        $pending++;
+    }
 }
 ?>
 
@@ -66,63 +73,67 @@ function e($value) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Submissions | EssayIQ</title>
 
-    <link rel="stylesheet" href="../assets/css/instructor1.css"></head>
+    <link rel="stylesheet" href="../assets/css/instructor.css">
 
     <style>
         .submissions-page {
-            padding: 32px;
-            color: #f1f5f9;
+            width: min(1200px, 92%);
+            margin: 0 auto;
+            padding: 40px 0 60px;
         }
 
         .submissions-page h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .submissions-page h1 span {
+            background: linear-gradient(
+                90deg, var(--cyan), var(--blue), var(--violet)
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .submissions-subtitle {
-            color: #94a3b8;
-            margin-bottom: 28px;
+            color: var(--muted);
+            margin-bottom: 30px;
         }
 
         .submissions-summary {
-            display: flex;
-            gap: 18px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
         }
 
-        .summary-card {
-            flex: 1;
-            min-width: 180px;
-            padding: 22px;
-            background: #111b35;
-            border: 1px solid #263657;
-            border-radius: 14px;
+        .summary-card,
+        .submissions-panel {
+            padding: 25px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
         }
 
         .summary-card p {
-            margin: 0 0 10px;
-            color: #94a3b8;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
 
         .summary-card h2 {
-            margin: 0;
-            color: #22d3ee;
-            font-size: 28px;
-        }
-
-        .submissions-panel {
-            padding: 24px;
-            background: #111b35;
-            border: 1px solid #263657;
-            border-radius: 16px;
+            color: var(--cyan);
+            font-size: 2rem;
         }
 
         .submissions-panel h2 {
-            margin: 0 0 20px;
-            font-size: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 22px;
         }
 
         .table-wrapper {
@@ -131,83 +142,98 @@ function e($value) {
 
         .submissions-table {
             width: 100%;
-            border-collapse: collapse;
             min-width: 750px;
+            border-collapse: collapse;
         }
 
         .submissions-table th,
         .submissions-table td {
             padding: 16px 12px;
             text-align: left;
-            border-bottom: 1px solid #263657;
             vertical-align: top;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .submissions-table th {
-            color: #94a3b8;
-            font-size: 12px;
+            color: var(--muted);
+            font-size: .75rem;
             text-transform: uppercase;
         }
 
         .submissions-table td {
-            color: #e2e8f0;
+            color: var(--text);
+            font-size: .9rem;
         }
 
         .student-email {
             display: block;
-            color: #94a3b8;
-            font-size: 12px;
             margin-top: 5px;
+            color: var(--muted);
+            font-size: .8rem;
         }
 
         .status-label {
             display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            background: #24334f;
-            color: #67e8f9;
-            font-size: 12px;
+            padding: 6px 11px;
+            border: 1px solid rgba(34, 211, 238, .2);
+            border-radius: 999px;
+            background: rgba(34, 211, 238, .08);
+            color: var(--cyan);
+            font-size: .75rem;
         }
 
         .view-button {
-            padding: 8px 12px;
+            padding: 9px 14px;
             border: 0;
-            border-radius: 8px;
-            background: #2563eb;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--blue), var(--violet));
             color: white;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 13px;
+            transition: .25s;
         }
 
         .view-button:hover {
-            background: #0d9488;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, .3);
+        }
+
+        .essay-details[hidden] {
+            display: none;
         }
 
         .essay-details td {
-            background: #0b1429;
+            background: rgba(5, 8, 22, .55);
         }
 
         .essay-content {
+            margin-top: 12px;
+            color: var(--muted);
             white-space: pre-wrap;
             overflow-wrap: anywhere;
             line-height: 1.8;
-            color: #cbd5e1;
         }
 
         .message {
-            padding: 18px;
-            border-radius: 10px;
-            background: #172440;
-            color: #cbd5e1;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            background: var(--glass);
+            color: var(--muted);
         }
 
-        @media (max-width: 700px) {
-            .submissions-page {
-                padding: 18px;
+        @media (max-width: 650px) {
+            .submissions-page h1 {
+                font-size: 2rem;
             }
 
+            .submissions-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card,
             .submissions-panel {
-                padding: 16px;
+                padding: 18px;
             }
         }
     </style>
@@ -215,11 +241,14 @@ function e($value) {
 
 <body>
 
+<?php include __DIR__ . '/navbar.php'; ?>
+
 <main class="submissions-page">
 
-    <h1>Student Submissions</h1>
+    <h1>Student <span>Submissions</span></h1>
+
     <p class="submissions-subtitle">
-        View essays submitted by students for your assignments.
+        Review essays submitted for your assignments.
     </p>
 
     <section class="submissions-summary">
@@ -230,19 +259,7 @@ function e($value) {
 
         <div class="summary-card">
             <p>Pending Reviews</p>
-            <h2>
-                <?php
-                $pending = 0;
-
-                foreach ($submissions as $item) {
-                    if (strtolower($item['status']) === 'pending') {
-                        $pending++;
-                    }
-                }
-
-                echo $pending;
-                ?>
-            </h2>
+            <h2><?= $pending ?></h2>
         </div>
     </section>
 
@@ -256,7 +273,8 @@ function e($value) {
         <?php elseif (empty($submissions)): ?>
 
             <div class="message">
-                No submissions found for your assignments yet.
+                No submissions found yet. Submitted essays will appear here
+                once they have been saved to the database.
             </div>
 
         <?php else: ?>
@@ -290,7 +308,7 @@ function e($value) {
 
                             <td>
                                 <span class="status-label">
-                                    <?= e($item['status']) ?>
+                                    <?= e($item['status'] ?: 'Pending') ?>
                                 </span>
                             </td>
 
@@ -304,18 +322,16 @@ function e($value) {
                                 <button
                                     type="button"
                                     class="view-button"
-                                    onclick="toggleEssay(<?= (int) $item['id'] ?>)">
+                                    onclick="toggleEssay(<?= (int)$item['id'] ?>)">
                                     View Essay
                                 </button>
                             </td>
                         </tr>
 
-                        <tr
-                            id="essay-<?= (int) $item['id'] ?>"
-                            class="essay-details"
-                            hidden>
+                        <tr id="essay-<?= (int)$item['id'] ?>"
+                            class="essay-details" hidden>
                             <td colspan="6">
-                                <h3>Essay Content</h3>
+                                <strong>Essay Content</strong>
                                 <div class="essay-content"><?= e($item['essay_text']) ?></div>
                             </td>
                         </tr>
@@ -332,13 +348,14 @@ function e($value) {
 <script>
 function toggleEssay(id) {
     const row = document.getElementById("essay-" + id);
-    row.hidden = !row.hidden;
+
+    if (row) {
+        row.hidden = !row.hidden;
+    }
 }
 </script>
 
 </body>
 </html>
 
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>

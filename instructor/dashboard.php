@@ -68,10 +68,10 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EssayIQ | Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/instructor1.css"></head>
-    <a href="submissions.php">Submissions</a>
+    <link rel="stylesheet" href="../assets/css/instructor.css">
+</head>
 <body>
-
+<?php include __DIR__ . '/navbar.php'; ?>
 <aside class="sidebar" id="sidebar">
     <div class="logo">
         <span class="logo-icon">E</span>
