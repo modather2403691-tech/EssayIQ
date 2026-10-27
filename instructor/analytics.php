@@ -16,7 +16,25 @@
 
 <body>
 
-    <?php include 'navbar.php'; ?>
+    <nav class="navbar">
+        <div class="brand">
+            <img
+                src="../assets/images/EssayIQ AI Grading Logo.png"
+                alt="EssayIQ Logo"
+                class="brand-logo"
+                style="width: 120px; height: 50px; object-fit: contain; display: block;"
+            >
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.php">Dashboard</a>
+            <a href="courses.php">Courses</a>
+            <a href="create-assignment.php">Assignments</a>
+            <a href="submissions.php">Submissions</a>
+            <a href="analytics.php" class="active">Analytics</a>
+            <a href="grading-criteria.php">Grading Criteria</a>
+            <a href="#">Logout</a>
+        </div>
+    </nav>
 
 
     <main class="container">
