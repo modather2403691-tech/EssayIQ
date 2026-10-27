@@ -81,10 +81,10 @@ function showValue($value) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Assignments | EssayIQ</title>
-    <link rel="stylesheet" href="../assets/instructor1.css"></head>
+    <link rel="stylesheet" href="../assets/css/instructor.css">
 
 <body>
-
+<?php include __DIR__ . '/navbar.php'; ?>
 <aside class="sidebar" id="sidebar">
     <a href="../index.php" class="logo">
         <svg class="logo-icon" viewBox="0 0 32 32" fill="none">

@@ -4,16 +4,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <nav class="navbar">
 
-  <div class="brand">
 
-    <img
-        src="../assets/images/EssayIQ AI Grading Logo.png"
-        alt="EssayIQ Logo"
-        class="brand-logo"
-        style="width: 120px; height: 50px; object-fit: contain; display: block;"
-    >
-
+<div class="brand">
+    <a href="../index.php" class="brand-link">
+        <img
+            src="../assets/images/EssayIQ AI Grading Logo.png"
+            alt="EssayIQ Logo"
+            class="brand-logo"
+        >
+    </a>
 </div>
+
 
 
     <div class="nav-links">
